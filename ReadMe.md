@@ -54,6 +54,8 @@ git commit  commits the file to the repository
             git commit -m "Initial commit."
 git log     shows the log for the repository
 
-git revert  
-git reset   
+git revert -n   [commit hash or first 7 chars of the commit hash] 
+                -n does not commit the revert.
+git reset [commit hash upto which we want to reset]  
+          resets to that version and commit history also goes away till that version
 ```
