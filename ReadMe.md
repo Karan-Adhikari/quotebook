@@ -55,7 +55,16 @@ git commit  commits the file to the repository
 git log     shows the log for the repository
 
 git revert -n   [commit hash or first 7 chars of the commit hash] 
-                -n does not commit the revert.
+            -n does not commit the revert.
+git revert [commit hash or first 7 chars of the commit hash] 
+            omitting the -n flag commits as well
+git revert HEAD
+            reverts the latest commit (:q to save the proposed comments)
+
 git reset [commit hash upto which we want to reset]  
-          resets to that version and commit history also goes away till that version
+            resets to that version and commit history also goes away till that version
+git reset [hash] --hard     
+            resets to hash and syncs the working directory as well.
+git reset HEAD~1 --hard
+            resets to head-1 and syncs the working directory as well.
 ```
