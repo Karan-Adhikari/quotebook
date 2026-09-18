@@ -53,4 +53,7 @@ git add     adds the file to be tracked by Git
 git commit  commits the file to the repository
             git commit -m "Initial commit."
 git log     shows the log for the repository
+
+git revert  
+git reset   
 ```
