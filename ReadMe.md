@@ -68,3 +68,52 @@ git reset [hash] --hard
 git reset HEAD~1 --hard
             resets to head-1 and syncs the working directory as well.
 ```
+
+### Learnings from Git Commands
+
+#### revert
+When using revert to revert a specific commit, git can possibly identify a conflict in that attempt. How?
+
+Git's diff engine looks at lines in chunks called hunks, usually using 3 lines of unchanged context above and below a change to locate where a patch should be applied.
+
+When changes happen on consecutive lines, Git merges them into a single hunk:
+```
+Joke 2
+Joke 3   <-- commit1
+Joke 4   <-- commit2
+```
+Because `commit1` and `commit2` touch adjacent lines, Git treats them as a single overlapping region. Reverting `commit1` means modifying a line (`Joke 3`) that directly touches a line modified later (`Joke 4`). Git flags this as a collision.
+
+##### How Blank Lines Change the Outcome
+If you put blank lines between each joke:
+
+`commit1`
+
+```
+Joke 2
+
+Joke 3
+```
+
+`commit2`
+
+```
+Joke 2
+
+Joke 3
+
+Joke 4
+```
+
+Here, the blank line creates a buffer. Git sees `Joke 3` and `Joke 4` as **two separate, independent hunks**.
+
+When you run `git revert commit1`:
+
+Git looks for the hunk containing `Joke 3` surrounded by empty lines.
+
+It clean-deletes `Joke 3` without touching `Joke 4`.
+
+No merge conflict is raised!
+
+##### Key Takeaway
+Git handles non-adjacent changes automatically. A conflict only triggers when two commits touch the exact same line or directly adjacent lines without enough stable context in between for Git to safely apply the change.
